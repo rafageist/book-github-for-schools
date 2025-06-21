@@ -1,0 +1,36 @@
+name: Build PDF Book
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  generate-pdf:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Clone Wiki
+        run: git clone https://github.com/abacusci/book-github-for-schools.wiki.git wiki
+
+      - name: Combine Markdown files in order
+        run: |
+          ls wiki | sort -V | while read file; do cat "wiki/$file" >> combined.md; echo -e "\n\n" >> combined.md; done
+
+      - name: Install Pandoc
+        run: sudo apt-get update && sudo apt-get install -y pandoc texlive
+
+      - name: Set date version
+        run: echo "BOOK_DATE=AbacusCI-GitHub-for-Schools-$(date +'%d-%m-%Y').pdf" >> $GITHUB_ENV
+
+      - name: Generate PDF with versioned name
+        run: pandoc combined.md -o "$BOOK_DATE"
+
+      - name: Upload PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.BOOK_DATE }}
+          path: ${{ env.BOOK_DATE }}
