@@ -27,7 +27,10 @@ jobs:
         run: echo "BOOK_DATE=AbacusCI-GitHub-for-Schools-$(date +'%d-%m-%Y').pdf" >> $GITHUB_ENV
 
       - name: Generate PDF with versioned name
-        run: pandoc combined.md -o "$BOOK_DATE"
+        run: |
+          pandoc combined.md -o "$BOOK_DATE" \
+            --pdf-engine=xelatex \
+            -V mainfont="DejaVu Sans"
 
       - name: Upload PDF
         uses: actions/upload-artifact@v4
