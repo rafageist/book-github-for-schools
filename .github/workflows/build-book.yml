@@ -20,25 +20,34 @@ jobs:
         run: |
           ls wiki | sort -V | while read file; do cat "wiki/$file" >> combined.md; echo -e "\n\n" >> combined.md; done
 
-      - name: Install Pandoc
-        run: sudo apt-get update && sudo apt-get install -y pandoc texlive
-
-      - name: Set date version
-        run: echo "BOOK_DATE=AbacusCI-GitHub-for-Schools-$(date +'%d-%m-%Y').pdf" >> $GITHUB_ENV
-
-      - name: Install xelatex and dejavu
+      - name: Install Pandoc and dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y texlive-xetex fonts-dejavu
+          sudo apt-get install -y pandoc texlive texlive-xetex fonts-dejavu
+
+      - name: Set date version
+        run: |
+          echo "BOOK_TAG=v$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+          echo "BOOK_NAME=AbacusCI-GitHub-for-Schools-$(date +'%d-%m-%Y').pdf" >> $GITHUB_ENV
 
       - name: Generate PDF with versioned name
         run: |
-          pandoc combined.md -o "$BOOK_DATE" \
+          pandoc combined.md -o "$BOOK_NAME" \
             --pdf-engine=xelatex \
             -V mainfont="DejaVu Sans"
 
-      - name: Upload PDF
+      - name: Upload PDF as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.BOOK_DATE }}
-          path: ${{ env.BOOK_DATE }}
+          name: ${{ env.BOOK_NAME }}
+          path: ${{ env.BOOK_NAME }}
+
+      - name: Create GitHub Release with PDF
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.BOOK_TAG }}
+          name: "AbacusCI GitHub for Schools – ${{ env.BOOK_TAG }}"
+          body: "Automated PDF export of the GitHub for Schools guide."
+          files: "${{ env.BOOK_NAME }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
