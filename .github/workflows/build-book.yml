@@ -26,6 +26,11 @@ jobs:
       - name: Set date version
         run: echo "BOOK_DATE=AbacusCI-GitHub-for-Schools-$(date +'%d-%m-%Y').pdf" >> $GITHUB_ENV
 
+      - name: Install xelatex and dejavu
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-xetex fonts-dejavu
+
       - name: Generate PDF with versioned name
         run: |
           pandoc combined.md -o "$BOOK_DATE" \
