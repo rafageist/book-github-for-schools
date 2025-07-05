@@ -1,4 +1,4 @@
-# GitHub for Schools – Practical Guide
+# Divengine Book GitHub for Schools – Practical Guide
 
 This repository contains the official guide to using GitHub as a collaborative tool in educational environments.
 
@@ -16,4 +16,4 @@ It is designed for school administrators, teachers, and support staff who want t
 
 ---
 
-✏️ This guide is a work in progress and part of the Abacus Computing Institute project. Contributions are welcome.
+✏️ This guide is a work in progress.
