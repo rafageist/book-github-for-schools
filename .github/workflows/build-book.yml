@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Clone Wiki
-        run: git clone https://github.com/abacusci/book-github-for-schools.wiki.git wiki
+        run: git clone https://github.com/divengine/book-github-for-schools.wiki.git wiki
 
       - name: Combine Markdown files in order
         run: |
@@ -30,7 +30,7 @@ jobs:
       - name: Set date version
         run: |
           echo "BOOK_TAG=v$(date +'%Y-%m-%d')" >> $GITHUB_ENV
-          echo "BOOK_NAME=AbacusCI-GitHub-for-Schools-$(date +'%d-%m-%Y').pdf" >> $GITHUB_ENV
+          echo "BOOK_NAME=Divengine-Book-GitHub-for-Schools-$(date +'%d-%m-%Y').pdf" >> $GITHUB_ENV
 
       - name: Generate PDF with versioned name
         run: |
@@ -48,7 +48,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ env.BOOK_TAG }}
-          name: "AbacusCI GitHub for Schools – ${{ env.BOOK_TAG }}"
+          name: "Divengine Book GitHub for Schools – ${{ env.BOOK_TAG }}"
           body: "Automated PDF export of the GitHub for Schools guide."
           files: "${{ env.BOOK_NAME }}"
         env:
