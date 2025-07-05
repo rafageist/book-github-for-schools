@@ -12,7 +12,7 @@ It is designed for school administrators, teachers, and support staff who want t
 - Templates and structures ready to adapt to your school
 
 🔗 **Read the full guide in the Wiki:**  
-👉 [https://github.com/abacusci/book-github-for-schools/wiki](https://github.com/abacusci/book-github-for-schools/wiki)
+👉 [https://github.com/divengine/book-github-for-schools/wiki](https://github.com/divengine/book-github-for-schools/wiki)
 
 ---
 
